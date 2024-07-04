@@ -1,6 +1,7 @@
 <?php
 
-class Kaart {
+class Kaart
+{
     public string $kleur;
     public string $waarde;
 
