@@ -4,10 +4,10 @@ require_once 'Card.php';
 
 try {
     $kaarten = [
-        new Kaart('Klaveren', 'Boer'),
-        new Kaart('Ruiten', 'Boer'),
-        new Kaart('Ruiten', '5'),
-        new Kaart('Schoffels', '6')
+        new Card('Klaveren', 'Boer'),
+        new Card('Ruiten', 'Boer'),
+        new Card('Ruiten', '5'),
+        new Card('Schoffels', '6')
     ];
 
     foreach ($kaarten as $kaart) {

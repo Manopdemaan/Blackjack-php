@@ -1,16 +1,16 @@
 <?php
 
-class Kaart
+class Card
 {
-    private string $kleur;
-    private string $waarde;
+    private string $suit;
+    private string $value;
 
-    public function __construct(string $kleur, string $waarde)
+    public function __construct(string $suit, string $value)
     {
-        $this->validateSuit($kleur);
-        $this->validateValue($waarde);
-        $this->kleur = $kleur;
-        $this->waarde = $waarde;
+        $this->validateSuit($suit);
+        $this->validateValue($value);
+        $this->suit = $suit;
+        $this->value = $value;
     }
 
     public function show(): string
@@ -29,8 +29,8 @@ class Kaart
             'Aas' => 'A'
         ];
 
-        $symbol = $suitSymbols[$this->kleur] ?? '';
-        $value = $valueSymbols[$this->waarde] ?? $this->waarde;
+        $symbol = $suitSymbols[$this->suit] ?? '';
+        $value = $valueSymbols[$this->value] ?? $this->value;
 
         return $symbol . $value;
     }
@@ -39,7 +39,7 @@ class Kaart
     {
         $validSuits = ['Harten', 'Ruiten', 'Klaveren', 'Schoppen'];
         if (!in_array($suit, $validSuits)) {
-            throw new InvalidArgumentException("invalid suit given: $suit");
+            throw new InvalidArgumentException("Ongeldige kleur: $suit");
         }
     }
 
