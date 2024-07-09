@@ -2,7 +2,13 @@
 
 require_once 'Card.php';
 
-$kaart = new Kaart('Klaveren', 'Boer');
+$kaarten = [
+    new Kaart('Klaveren', 'Boer'),
+    new Kaart('Ruiten', 'Boer'),
+    new Kaart('Ruiten', '5')
+];
 
-var_dump($kaart);
+foreach ($kaarten as $kaart) {
+    echo $kaart->show() . PHP_EOL;
+}
 ?>
