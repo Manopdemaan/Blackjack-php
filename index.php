@@ -2,13 +2,18 @@
 
 require_once 'Card.php';
 
-$kaarten = [
-    new Kaart('Klaveren', 'Boer'),
-    new Kaart('Ruiten', 'Boer'),
-    new Kaart('Ruiten', '5')
-];
+try {
+    $kaarten = [
+        new Kaart('Klaveren', 'Boer'),
+        new Kaart('Ruiten', 'Boer'),
+        new Kaart('Ruiten', '5'),
+        new Kaart('Schoffels', '6')
+    ];
 
-foreach ($kaarten as $kaart) {
-    echo $kaart->show() . PHP_EOL;
+    foreach ($kaarten as $kaart) {
+        echo $kaart->show() . PHP_EOL;
+    }
+} catch (InvalidArgumentException $e) {
+    echo 'Error: ' . $e->getMessage() . PHP_EOL;
 }
 ?>
