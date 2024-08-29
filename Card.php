@@ -35,6 +35,13 @@ class Card
         return $symbol . $value;
     }
 
+    public function score(): int
+    {
+        $valueSymbols = ['Boer' => 10, 'Vrouw' => 10, 'Heer' => 10, 'Aas' => 11];
+
+        return $valueSymbols[$this->value] ?? (int)$this->value;
+    }
+
     private function validateSuit(string $suit): void
     {
         $validSuits = ['Harten', 'Ruiten', 'Klaveren', 'Schoppen'];
