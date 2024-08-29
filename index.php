@@ -13,7 +13,6 @@ try {
     }
 
     echo $player->showHand() . PHP_EOL;
-
 } catch (Exception $e) {
     echo 'Error: ' . $e->getMessage() . PHP_EOL;
 }
