@@ -1,19 +1,20 @@
 <?php
 
 require_once 'Card.php';
+require_once 'Deck.php';
+require_once 'Player.php';
 
 try {
-    $kaarten = [
-        new Card('Klaveren', 'Boer'),
-        new Card('Ruiten', 'Boer'),
-        new Card('Ruiten', '5'),
-        new Card('Schoffels', '6')
-    ];
+    $deck = new Deck();
+    $player = new Player('PLayer1');
 
-    foreach ($kaarten as $kaart) {
-        echo $kaart->show() . PHP_EOL;
+    for ($i = 0; $i < 3; $i++) {
+        $player->addCard($deck->drawCard());
     }
-} catch (InvalidArgumentException $e) {
+
+    echo $player->showHand() . PHP_EOL;
+
+} catch (Exception $e) {
     echo 'Error: ' . $e->getMessage() . PHP_EOL;
 }
 ?>
