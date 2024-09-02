@@ -23,5 +23,14 @@ class Blackjack
 
         return "Score: $score";
     }
+
+    public function getScore(array $hand): int
+    {
+        $score = 0;
+        foreach ($hand as $card) {
+            $score += $card->score();
+        }
+        return $score;
+    }
 }
 ?>
