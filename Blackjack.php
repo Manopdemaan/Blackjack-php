@@ -21,7 +21,7 @@ class Blackjack
             return "Five Card Charlie";
         }
 
-        return "Score: $score";
+        return (string)$score;
     }
 
     public function getScore(array $hand): int
@@ -33,4 +33,5 @@ class Blackjack
         return $score;
     }
 }
+
 ?>

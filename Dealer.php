@@ -15,7 +15,7 @@ class Dealer
     {
         $this->blackjack = $blackjack;
         $this->deck = $deck;
-        $this->dealer = new Player('Dealer', $blackjack);
+        $this->dealer = new Player('Dealer');
         $this->players[] = $this->dealer; 
     }
 
@@ -27,9 +27,20 @@ class Dealer
     public function playGame(): void
     {
         $this->dealInitialCards();
+        $gameActive = true;
 
-        while ($this->shouldContinuePlaying()) {
-            $this->playRound();
+        while ($gameActive) {
+            foreach ($this->players as $player) {
+                if ($player !== $this->dealer && !$player->isBusted()) {
+                    $this->playPlayerTurn($player);
+                }
+            }
+
+            if (!$this->dealer->isBusted()) {
+                $this->playDealerTurn();
+            }
+
+            $gameActive = $this->anyPlayerWantsToContinue();
         }
 
         $this->determineWinners();
@@ -37,59 +48,74 @@ class Dealer
 
     private function dealInitialCards(): void
     {
-        foreach ($this->players as $player) {
-            $player->addCard($this->deck->drawCard());
-            $player->addCard($this->deck->drawCard());
-        }
-    }
+        $this->dealer->addCard($this->deck->drawCard());
+        $this->dealer->addCard($this->deck->drawCard());
 
-    private function shouldContinuePlaying(): bool
-    {
         foreach ($this->players as $player) {
-            if ($player !== $this->dealer && $player->wantsToDraw()) {
-                return true;
+            if ($player !== $this->dealer) {
+                $player->addCard($this->deck->drawCard());
+                $player->addCard($this->deck->drawCard());
             }
         }
-        return $this->dealer->getScore() < 18;
     }
 
-    private function playRound(): void
+    private function playPlayerTurn(Player $player): void
     {
-        if ($this->dealer->getScore() < 18) {
+        echo $player->getName() . "'s turn. " . $player->showHand() . ". 'draw' or 'stop'?... ";
+        $choice = trim(fgets(STDIN));
+
+        if (strtolower($choice) === 'draw') {
+            $player->addCard($this->deck->drawCard());
+            echo $player->showHand() . PHP_EOL;
+            $score = $player->getScore($this->blackjack);
+            echo "Score: " . $score . PHP_EOL;
+
+            if ($score === "Busted" || $score === "Blackjack" || $score === "Twenty-One" || $score === "Five Card Charlie") {
+                $player->stop();
+            }
+        } else {
+            $player->stop();
+        }
+    }
+
+    private function playDealerTurn(): void
+    {
+        echo "Dealer's turn...\n";
+        while ($this->dealer->getScore($this->blackjack) < 18) {
             echo "Dealer draws a card...\n";
             $this->dealer->addCard($this->deck->drawCard());
             echo $this->dealer->showHand() . PHP_EOL;
         }
+    }
 
+    private function anyPlayerWantsToContinue(): bool
+    {
         foreach ($this->players as $player) {
-            if ($player !== $this->dealer) {
-                echo $player->getName() . "'s turn. " . $player->showHand() . ". 'draw' or 'stop'?... ";
+            if ($player !== $this->dealer && !$player->isBusted()) {
+                echo $player->getName() . " wants to continue. Press 'y' to continue or any other key to stop: ";
                 $choice = trim(fgets(STDIN));
-
-                if (strtolower($choice) === 'draw') {
-                    $player->addCard($this->deck->drawCard());
-                    echo $player->showHand() . PHP_EOL;
-                    $score = $player->getScore();
-                    echo $score . PHP_EOL;
-
-                    if ($score === "Busted" || $score === "Blackjack" || $score === "Twenty-One" || $score === "Five Card Charlie") {
-                        break;
-                    }
-                } else {
-                    $player->stop();
+                if (strtolower($choice) === 'y') {
+                    return true;
                 }
             }
         }
+        return false;
     }
 
     private function determineWinners(): void
     {
+        $dealerScore = $this->dealer->getFinalScore($this->blackjack);
+        echo "Dealer's final score: " . $dealerScore . PHP_EOL;
+
         foreach ($this->players as $player) {
             if ($player !== $this->dealer) {
+                $playerScore = $player->getFinalScore($this->blackjack);
+                echo $player->getName() . "'s final score: " . $playerScore . PHP_EOL;
+
                 if ($player->isBusted()) {
                     echo $player->getName() . " is busted! Dealer wins!\n";
-                } elseif ($this->dealer->isBusted() || $player->getFinalScore() > $this->dealer->getFinalScore()) {
-                    echo $player->getName() . " wins with " . $player->getFinalScore() . "!\n";
+                } elseif ($this->dealer->isBusted() || $playerScore > $dealerScore) {
+                    echo $player->getName() . " wins with " . $playerScore . "!\n";
                 } else {
                     echo "Dealer wins against " . $player->getName() . "!\n";
                 }

@@ -4,13 +4,11 @@ class Player
 {
     private string $name;
     private array $hand = [];
-    private Blackjack $blackjack;
     private bool $stopped = false;
 
-    public function __construct(string $name, Blackjack $blackjack)
+    public function __construct(string $name)
     {
         $this->name = $name;
-        $this->blackjack = $blackjack;
     }
 
     public function addCard(Card $card): void
@@ -18,9 +16,9 @@ class Player
         $this->hand[] = $card;
     }
 
-    public function getScore(): string
+    public function getScore(Blackjack $blackjack): string
     {
-        return $this->blackjack->scoreHand($this->hand);
+        return $blackjack->scoreHand($this->hand);
     }
 
     public function showHand(): string
@@ -39,17 +37,17 @@ class Player
 
     public function wantsToDraw(): bool
     {
-        return !$this->stopped && $this->getScore() !== "Busted";
+        return !$this->stopped && $this->getScore(new Blackjack()) !== "Busted";
     }
 
     public function isBusted(): bool
     {
-        return $this->getScore() === "Busted";
+        return $this->getScore(new Blackjack()) === "Busted";
     }
 
-    public function getFinalScore(): int
+    public function getFinalScore(Blackjack $blackjack): int
     {
-        $scoreString = $this->getScore();
+        $scoreString = $this->getScore($blackjack);
         if (is_numeric($scoreString)) {
             return (int)$scoreString;
         }
