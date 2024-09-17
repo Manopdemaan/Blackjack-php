@@ -1,5 +1,7 @@
 <?php
-class Card {
+
+class Card 
+{
     private $suit;
     private $value;
 
@@ -10,20 +12,24 @@ class Card {
         'Spades' => '♠'
     ];
 
-    public function __construct($suit, $value) {
+    public function __construct($suit, $value)
+    {
         $this->suit = $suit;
         $this->value = $value;
     }
 
-    public function getSuit() {
+    public function getSuit()
+    {
         return $this->suit;
     }
 
-    public function getValue() {
+    public function getValue()
+    {
         return $this->value;
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         $valueDisplay = $this->value;
         switch ($valueDisplay) {
             case 'Jack':

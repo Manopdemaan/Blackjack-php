@@ -1,38 +1,45 @@
 <?php
-class Dealer {
+
+class Dealer
+{
     private $blackjack;
     private $deck;
     private $players = [];
     private $dealer;
 
-    public function __construct(Blackjack $blackjack, Deck $deck) {
+    public function __construct(Blackjack $blackjack, Deck $deck)
+    {
         $this->blackjack = $blackjack;
         $this->deck = $deck;
         $this->dealer = new Player('Dealer');
         $this->players[] = $this->dealer;
     }
 
-    public function addPlayer(Player $player) {
+    public function addPlayer(Player $player)
+    {
         $this->players[] = $player;
     }
 
-    public function playGame() {
+    public function playGame()
+    {
         $this->dealInitialCards();
         $this->playTurns();
         $this->evaluateGame();
     }
 
-    private function dealInitialCards() {
+    private function dealInitialCards()
+    {
         foreach ($this->players as $player) {
             for ($i = 0; $i < 2; $i++) {
                 $player->addCard($this->deck->drawCard());
             }
         }
 
-        echo "Kaart van de dealer is: " . $this->dealer->getHand()[1] . "\n";
+        echo "Dealer's face up card: " . $this->dealer->getHand()[1] . "\n";
     }
 
-    private function playTurns() {
+    private function playTurns()
+    {
         $playerCount = count($this->players);
         $allPlayersTurn = true;
 
@@ -41,20 +48,20 @@ class Dealer {
                 if ($player === $this->dealer) {
                     if ($this->blackjack->getScore($this->dealer->getHand()) < 18) {
                         $this->dealer->addCard($this->deck->drawCard());
-                        echo "Dealer neemt kaart: ";
+                        echo "Dealer draws a card. New hand: ";
                         $this->printHand($this->dealer->getHand());
                     }
                 } else {
-                    echo $player->getName() . ", je hand is: ";
+                    echo $player->getName() . ", your hand is: ";
                     $this->printHand($player->getHand());
                     echo "Score: " . $this->blackjack->getScore($player->getHand()) . "\n";
-                    echo "Wil je door? (D/S): ";
+                    echo "Do you want to hit or stand? (h/s): ";
                     $choice = trim(fgets(STDIN));
 
                     if ($choice === 'h') {
                         $player->addCard($this->deck->drawCard());
                         if ($this->blackjack->getScore($player->getHand()) > 21) {
-                            echo "Busted! Je hand: ";
+                            echo "Busted! Your hand: ";
                             $this->printHand($player->getHand());
                             echo "Score: " . $this->blackjack->getScore($player->getHand()) . "\n";
                             $allPlayersTurn = false;
@@ -72,31 +79,36 @@ class Dealer {
         }
     }
 
-    private function dealerTurn() {
-        echo "Dealer's Laatste hand: ";
+    private function dealerTurn()
+    {
+        echo "Dealer's final hand: ";
         $this->printHand($this->dealer->getHand());
         while ($this->blackjack->getScore($this->dealer->getHand()) < 18) {
             $this->dealer->addCard($this->deck->drawCard());
-            echo "Dealer Neemt kaart. Nieuwe hand: ";
+            echo "Dealer draws a card. New hand: ";
             $this->printHand($this->dealer->getHand());
         }
     }
 
-    private function printHand($hand) {
+    private function printHand($hand)
+    {
         foreach ($hand as $card) {
             echo $card . " ";
         }
         echo "\n";
     }
 
-    private function evaluateGame() {
+    private function evaluateGame()
+    {
         $dealerScore = $this->blackjack->getScore($this->dealer->getHand());
         echo "Dealer's final hand: ";
         $this->printHand($this->dealer->getHand());
         echo "Dealer's final score: " . $dealerScore . "\n";
 
         foreach ($this->players as $player) {
-            if ($player === $this->dealer) continue;
+            if ($player === $this->dealer) {
+                continue;
+            }
 
             $playerScore = $this->blackjack->getScore($player->getHand());
             echo $player->getName() . "'s final hand: ";
@@ -108,7 +120,7 @@ class Dealer {
             } elseif ($dealerScore > 21 || $playerScore > $dealerScore) {
                 echo $player->getName() . " wins!\n";
             } elseif ($playerScore < $dealerScore) {
-                echo "Dealer wins tegen " . $player->getName() . ".\n";
+                echo "Dealer wins against " . $player->getName() . ".\n";
             } else {
                 echo "It's a tie with " . $player->getName() . ".\n";
             }
