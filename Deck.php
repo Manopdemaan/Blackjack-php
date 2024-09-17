@@ -1,8 +1,11 @@
 <?php
-class Deck {
+
+class Deck
+{
     private $cards = [];
 
-    public function __construct() {
+    public function __construct()
+    {
         $suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades'];
         $values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace'];
 
@@ -15,7 +18,8 @@ class Deck {
         shuffle($this->cards);
     }
 
-    public function drawCard() {
+    public function drawCard()
+    {
         return array_shift($this->cards);
     }
 }

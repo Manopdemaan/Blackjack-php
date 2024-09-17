@@ -1,6 +1,9 @@
 <?php
-class Blackjack {
-    public function getScore($hand) {
+
+class Blackjack
+{
+    public function getScore($hand)
+    {
         $score = 0;
         $aces = 0;
 
