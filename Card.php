@@ -1,61 +1,45 @@
 <?php
+class Card {
+    private $suit;
+    private $value;
 
-class Card
-{
-    private string $suit;
-    private string $value;
+    private static $suitSymbols = [
+        'Hearts' => '♥',
+        'Diamonds' => '♦',
+        'Clubs' => '♣',
+        'Spades' => '♠'
+    ];
 
-    public function __construct(string $suit, string $value)
-    {
-        $this->validateSuit($suit);
-        $this->validateValue($value);
+    public function __construct($suit, $value) {
         $this->suit = $suit;
         $this->value = $value;
     }
 
-    public function show(): string
-    {
-        $suitSymbols = [
-            'Klaveren' => '♣',
-            'Ruiten' => '♦',
-            'Harten' => '♥',
-            'Schoppen' => '♠'
-        ];
-
-        $valueSymbols = [
-            'Boer' => 'B',
-            'Vrouw' => 'V',
-            'Heer' => 'H',
-            'Aas' => 'A'
-        ];
-
-        $symbol = $suitSymbols[$this->suit] ?? '';
-        $value = $valueSymbols[$this->value] ?? $this->value;
-
-        return $symbol . $value;
+    public function getSuit() {
+        return $this->suit;
     }
 
-    public function score(): int
-    {
-        $valueSymbols = ['Boer' => 10, 'Vrouw' => 10, 'Heer' => 10, 'Aas' => 11];
-
-        return $valueSymbols[$this->value] ?? (int)$this->value;
+    public function getValue() {
+        return $this->value;
     }
 
-    private function validateSuit(string $suit): void
-    {
-        $validSuits = ['Harten', 'Ruiten', 'Klaveren', 'Schoppen'];
-        if (!in_array($suit, $validSuits)) {
-            throw new InvalidArgumentException("Ongeldige kleur: $suit");
+    public function __toString() {
+        $valueDisplay = $this->value;
+        switch ($valueDisplay) {
+            case 'Jack':
+                $valueDisplay = 'J';
+                break;
+            case 'Queen':
+                $valueDisplay = 'Q';
+                break;
+            case 'King':
+                $valueDisplay = 'K';
+                break;
+            case 'Ace':
+                $valueDisplay = 'A';
+                break;
         }
-    }
-
-    private function validateValue(string $value): void
-    {
-        $validValues = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Boer', 'Vrouw', 'Heer', 'Aas'];
-        if (!in_array($value, $validValues)) {
-            throw new InvalidArgumentException("Ongeldige waarde: $value");
-        }
+        return $valueDisplay . self::$suitSymbols[$this->suit];
     }
 }
 ?>

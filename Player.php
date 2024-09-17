@@ -1,68 +1,26 @@
 <?php
+class Player {
+    private $hand = [];
+    private $name;
 
-class Player
-{
-    private string $name;
-    private array $hand = [];
-    private bool $stopped = false;
-
-    public function __construct(string $name)
-    {
+    public function __construct($name) {
         $this->name = $name;
     }
 
-    public function addCard(Card $card): void
-    {
+    public function addCard($card) {
         $this->hand[] = $card;
     }
 
-    public function getScore(Blackjack $blackjack): string
-    {
-        return $blackjack->scoreHand($this->hand);
+    public function getHand() {
+        return $this->hand;
     }
 
-    public function showHand(): string
-    {
-        $cardsInHand = array_map(function (Card $card) {
-            return $card->show();
-        }, $this->hand);
-
-        return $this->name . " has " . implode(" ", $cardsInHand);
-    }
-
-    public function stop(): void
-    {
-        $this->stopped = true;
-    }
-
-    public function wantsToDraw(): bool
-    {
-        return !$this->stopped && $this->getScore(new Blackjack()) !== "Busted";
-    }
-
-    public function isBusted(): bool
-    {
-        return $this->getScore(new Blackjack()) === "Busted";
-    }
-
-    public function getFinalScore(Blackjack $blackjack): int
-    {
-        $scoreString = $this->getScore($blackjack);
-        if (is_numeric($scoreString)) {
-            return (int)$scoreString;
-        }
-
-        if ($scoreString === "Blackjack") {
-            return 21;
-        }
-
-        return 0;
-    }
-
-    public function getName(): string
-    {
+    public function getName() {
         return $this->name;
     }
-}
 
+    public function clearHand() {
+        $this->hand = [];
+    }
+}
 ?>
