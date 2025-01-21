@@ -34,9 +34,10 @@ Dit is een eenvoudig Blackjack spel geschreven in php. Je kunt het spelen via de
 
 ## Hoe Speel Je Het?
      kijk op youtube, internet of deze link https://www.venetianlasvegas.com/resort/casino/table-games/how-to-play-blackjack.html
+
 1. **Start het Spel:**
 
-   Typ het volgende in je terminal:
+   Typ het volgende in je terminall:
 
    php index.php
 
