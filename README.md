@@ -13,7 +13,7 @@ Dit is een eenvoudig Blackjack spel geschreven in php. Je kunt het spelen via de
 
 ## Wat Heb Je Nodig?
 
-- PHP duh
+- PHP
 - Een terminal 
 
 ## Hoe Installeer Je Het?
@@ -40,6 +40,3 @@ Dit is een eenvoudig Blackjack spel geschreven in php. Je kunt het spelen via de
    Typ het volgende in je terminall:
 
    php index.php
-
-   # problemen?
-   contacteer Richy Gomez van de bit
