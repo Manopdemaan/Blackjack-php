@@ -6,7 +6,7 @@ class Deck
 
     public function __construct() 
     {
-        $suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades'];
+        $suits = ['Hearts', 'Diamondss', 'Clubss', 'Spades'];
         $values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace'];
 
         foreach ($suits as $suit) {
